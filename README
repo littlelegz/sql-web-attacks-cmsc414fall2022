@@ -273,48 +273,64 @@ Task 4: Session Hijacking using the Stolen Cookies
 CSRF Attack
 -----------
 
-1. Overview 
+Your goal in these tasks is to find ways to exploit a Cross-Site Request Forgery
+vulnerability.
 
-The objective of this lab is to help students understand the Cross-Site Request Forgery (CSRF or XSRF) attack. A CSRF attack involves a victim user, a trusted site, and a malicious site. The victim user holds an active session with a trusted site while visiting a malicious site. The malicious site injects an HTTP request for the trusted site into the victim user session, causing damages. 
- 
-In this lab, students will be attacking a social networking web application using the CSRF attack. The open-source social networking application called Elgg has countermeasures against CSRF, but we have turned them off for the purpose of this lab.
+To retrieve the docker image, run
 
-2. Lab Environment
-You will be using our pre-built docker image for this lab. 
-//TODO How to Download and run the docker image, and load up the app in browser
+    docker pull gizmonic.cs.umd.edu:8080/csrf
 
-3. Background of CSRF Attacks
+Start the server by running
 
-A CSRF attack involves three actors: a trusted site (Elgg), a victim user of the trusted site, and a malicious site. The victim user simultaneously visits the malicious site while holding an active session with the trusted site. The attack involves the following sequence of steps: 
- 
-1. The victim user logs into the trusted site using his/her username and password, and thus creates a new session.  
- 
-2. The trusted site stores the session identifier for the session in a cookie in the victim user's web browser.  
- 
-3. The victim user visits a malicious site.  
- 
-4. The malicious site's web page sends a request to the trusted site from the victim user's browser. This request is a cross-site request, because the site from where the request is initiated is different from the site where the request goes to.  
- 
-5. By design, web browsers automatically attach the session cookie to the request, even if it is a cross-site request.  
- 
-6. The trusted site, if vulnerable to CSRF, may process the malicious request forged by the attacker web site, because it does not know whether the request is a forged cross-site request or a legitimate one. 
- 
-The malicious site can forge both HTTP GET and POST requests for the trusted site. Some HTML tags such as img, iframe, frame, and form have no restrictions on the URL that can be used in their attribute. HTML img, iframe, and frame can be used for forging GET requests. The HTML form tag can be used for forging POST requests. Forging GET requests is relatively easier, as it does not even need the help of JavaScript; forging POST requests does need JavaScript. Since Elgg only uses POST, the tasks in this lab will only involve HTTP POST requests.
+    docker run -d -p 8080:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server gizmonic.cs.umd.edu:8080/csrf
+
+You can access the server in your browser at
+
+    http://localhost:8080/
+
+This is running a slightly different version of Elgg, but has the same users
+and credentials.
  
 Task 5: CSRF Attack using GET Request 
  
-In this task, we need two people in the Elgg social network: Alice and Boby. Boby wants to become a friend to Alice, but Alice refuses to add Boby to her Elgg friend list. Boby decides to use the CSRF attack to achieve his goal. He sends Alice an URL (via an email or a posting in Elgg); Alice, curious about it, and clicks on the URL. Pretend that you are Boby, describe how you can construct the content of the web page, so as soon as Alice visits the web page, Boby is added to the friend list of Alice (assuming Alice has an active session with Elgg).  
- 
-To add a friend to the victim, we need to identify the Add Friend HTTP request, which is a GET request. In this task, you are not allowed to write JavaScript code to launch the CSRF attack. Your job is to make the attack successful as soon as Alice visits the web page, without even making any click on the page (hint: you can use the img tag, which automatically triggers an HTTP GET request). 
- 
-Whenever the victim user visits the crafted web page in the malicious site, the web browser automatically issues a HTTP GET request for the URL contained in the img tag. Because the web browser automatically attaches the session cookie to the request, the trusted site cannot distinguish the malicious request from the genuine request and ends up processing the request compromising the victim user's session integrity.  
- 
-Observe the request structure for adding a new friend and then use this to forge a new request to the application. When the victim user visits the malicious web page, a malicious request for adding a friend should be injected into the victim's active session with Elgg. 
- 
-Submission: You are required to submit a file named task5.html. When a victim user named Alice is logged in , and visits the attacker website localhost:<<port>>/task5.html in another tab, Boby should be added as a friend to Alice's Friend List.  
- 
-To test this, you will need to place the task5.html file under the directory /var/www/CSRF/elgg/ in the docker container.
+  In this task, we need two people in the Elgg social network: Alice and Boby.
+  Boby wants to become a friend to Alice, but Alice refuses to add Boby to her
+  Elgg friend list. Boby decides to use the CSRF attack to achieve his goal. He
+  sends Alice a URL (via an email or a posting in Elgg); Alice, curious about
+  it, and clicks on the URL. Pretend that you are Boby, describe how you can
+  construct the content of the web page, so as soon as Alice visits the web
+  page, Boby is added to the friend list of Alice (assuming Alice has an active
+  session with Elgg).
 
-//TODO Command to copy task5.html from host to docker container directory /var/www/CSRF/elgg/  
+  To add a friend to the victim, we need to identify the Add Friend HTTP
+  request, which is a GET request. In this task, you are not allowed to write
+  JavaScript code to launch the CSRF attack. Your job is to make the attack
+  successful as soon as Alice visits the web page, without even making any click
+  on the page (hint: you can use the img tag, which automatically triggers an
+  HTTP GET request).
+
+  Whenever the victim user visits the crafted web page in the malicious site,
+  the web browser automatically issues a HTTP GET request for the URL contained
+  in the img tag. Because the web browser automatically attaches the session
+  cookie to the request, the trusted site cannot distinguish the malicious
+  request from the genuine request and ends up processing the request
+  compromising the victim user's session integrity.
+
+  Observe the request structure for adding a new friend and then use this to
+  forge a new request to the application. When the victim user visits the
+  malicious web page, a malicious request for adding a friend should be injected
+  into the victim's active session with Elgg.
  
-Tip: Your browser may not refresh on its own. You might need to press the reload/refresh button to reload the page, to see if Boby is added as a friend to Alice's account.
+  Submission: You are required to submit a file named task5.html. When a victim
+  user named Alice is logged in, and visits the attacker website
+  localhost:<<port>>/task5.html in another tab, Boby should be added as a friend
+  to Alice's Friend List.  
+ 
+  To test this, you will need to place the task5.html file under the directory
+  /var/www/CSRF/elgg/ in the docker container. You can do this by running
+  
+    docker cp task5.html csrf_server:/var/www/CSRF/elgg
+
+  Tip: Your browser may not refresh on its own. You might need to press the
+  reload/refresh button to reload the page, to see if Boby is added as a friend
+  to Alice's account.
