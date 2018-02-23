@@ -29,6 +29,18 @@ You can access the server in your browser at
 
     http://localhost:8080/
 
+If you want to examine files in the container, you have several options:
+
+    1. docker exec -ti sql_server bash
+    2. docker exec sql_server cat <filename>
+    3. docker cp sql_server:<filename> <local filename>
+
+The first option gives you a shell on the running container, though the commands
+available to you are somewhat limited. The second will simply dump the contents
+of the file (replace <filename> with the full path to the file) to STDOUT. The
+third will copy the file to a local name, and behaves very similarly to the
+normal "cp" command.
+
 For these tasks, the server you are attacking is called Collabtive, which is a
 web-based project management system. It has several user accounts configured.
 To see all the users' account information, first log in as the admin using the
@@ -38,7 +50,7 @@ post on the front page.
     username: admin 
     password: admin
 
-Task1: SQL Injection Attack on SELECT Statements
+Task 1: SQL Injection Attack on SELECT Statements
 
   In this task, you need to manage to log into Collabtive without providing a
   password. You can achieve this using SQL injections. Normally, before users
@@ -79,7 +91,7 @@ Task1: SQL Injection Attack on SELECT Statements
 
   Follow this with a short explanation of what your input causes to happen.
 
-Task2: SQL Injection on UPDATE Statements
+Task 2: SQL Injection on UPDATE Statements
 
   In this task, you need to make an unauthorized modification to the database.
   Your goal is to modify another user's profile using SQL injections. In
