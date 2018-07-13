@@ -5,7 +5,7 @@ The tasks will all use docker images, hosted on gizmonic. These images have
 fully-configured servers that are vulnerable to the various attacks. Any machine
 with docker installed should suffice to complete these -- you don't have to use
 the course VM if you do not wish to. Make sure there is no service on your
-machine listening on port 8080. It is unlikely that there is.
+machine listening on ports 8081, 8082, or 8083. It is unlikely that there is.
 
 For the Java code you will be writing, be aware that the VM is still the
 reference platform, and is running openjdk version "1.8.0_151".
@@ -23,11 +23,11 @@ To retrieve the docker image, run
 
 Start the server by running
 
-    docker run -d -p 8080:80 --name sql_server gizmonic.cs.umd.edu:8080/sqli
+    docker run -d -p 8081:80 --name sql_server gizmonic.cs.umd.edu:8080/sqli
 
 You can access the server in your browser at
 
-    http://localhost:8080/
+    http://localhost:8081/
 
 If you want to examine files in the container, you have several options:
 
@@ -147,11 +147,11 @@ To retrieve the docker image, run
 
 Start the server by running
 
-    docker run -d -p 8080:80 --name xss_server gizmonic.cs.umd.edu:8080/xss
+    docker run -d -p 8082:80 --name xss_server gizmonic.cs.umd.edu:8080/xss
 
 You can access the server in your browser at
 
-    http://localhost:8080/
+    http://localhost:8082/
 
 For these tasks, the server you are attacking is called Elgg, which is a social
 networking application. It has several user accounts configured, with the
@@ -294,11 +294,11 @@ To retrieve the docker image, run
 
 Start the server by running
 
-    docker run -d -p 8080:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server gizmonic.cs.umd.edu:8080/csrf
+    docker run -d -p 8083:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server gizmonic.cs.umd.edu:8080/csrf
 
 You can access the server in your browser at
 
-    http://localhost:8080/
+    http://localhost:8083/
 
 This is running a slightly different version of Elgg, but has the same users
 and credentials.
