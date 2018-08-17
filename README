@@ -113,7 +113,7 @@ Task 2: SQL Injection on UPDATE Statements
 
     1: Bob's new password after your injection, wrapped in double quotes.
 
-    2: User whose profile you are modifying
+    2: User whose profile you are modifying (*not* Bob), without quotes.
 
     3-n: One line for each profile parameter you changed, like so:
            "param"="new value"
