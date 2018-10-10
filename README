@@ -113,7 +113,8 @@ Task 2: SQL Injection on UPDATE Statements
 
     1: Bob's new password after your injection, wrapped in double quotes.
 
-    2: User whose profile you are modifying (*not* Bob), without quotes.
+    2: User whose profile you are modifying (*not* Bob or Admin), without
+       quotes.
 
     3-n: One line for each profile parameter you changed, like so:
            "param"="new value"
@@ -121,7 +122,8 @@ Task 2: SQL Injection on UPDATE Statements
          Please note that both the parameter name and new value should be
          wrapped in double quotes, so that we can clearly see any spaces you
          might have added. Also, the parameter name should be exactly as it
-         appears in the source code.
+         appears in the source code, *not* what you see on the webpage. You
+         will have to examine the HTML or network traffic for these.
 
     n+1: A blank line 
 
@@ -272,8 +274,11 @@ Task 4: Session Hijacking using the Stolen Cookies
   Input:  Your java program should read from an input file called
   HTTPSimpleForge.txt. The first line of the input file contains the __elgg_ts
   token (absolute value), the second line contains the __elgg_token (absolute
-  value) and the third line would contain the Cookie value (Elgg=<<cookie
-  value>>).  You can create a text file locally for testing out your code,
+  value) and the third line would contain the Cookie HTTP header value:
+
+    Elgg=<<cookie value>>
+
+  You can create a text file locally for testing out your code,
   however, you do not need to submit this file as part of your submission. We
   will use our own HTTPSimpleForge.txt file for checking.
 
