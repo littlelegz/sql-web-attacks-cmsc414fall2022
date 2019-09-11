@@ -10,6 +10,8 @@ machine listening on ports 8081, 8082, or 8083. It is unlikely that there is.
 For the Java code you will be writing, be aware that the VM is still the
 reference platform, and is running openjdk version "1.8.0_151".
 
+Note: You are recommended to use VM image, where all the docker images already exist for this project.
+
 
 SQL Injection Attacks
 ---------------------
@@ -17,15 +19,20 @@ SQL Injection Attacks
 Your goal in these tasks is to find ways to exploit the SQL-Injection
 vulnerabilities and demonstrate the damage that can be achieved by the attacks.
 
-To retrieve the docker image, run
+(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
+
+Steps for running docker image:
+
+1. To retrieve the docker image, run
 
     docker pull gizmonic.cs.umd.edu:8080/sqli
 
-Start the server by running
+
+2. Start the server by running
 
     docker run -d -p 8081:80 --name sql_server gizmonic.cs.umd.edu:8080/sqli
 
-You can access the server in your browser at
+3. You can access the server in your browser at
 
     http://localhost:8081/
 
@@ -143,15 +150,19 @@ XSS Attack
 Your goal in these tasks is to find ways to exploit the Cross-Site Scripting
 vulnerabilities and demonstrate the damage that can be achieved by the attacks.
 
-To retrieve the docker image, run
+(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
+
+Steps for running docker image:
+
+1. To retrieve the docker image, run
 
     docker pull gizmonic.cs.umd.edu:8080/xss
 
-Start the server by running
+2. Start the server by running
 
     docker run -d -p 8082:80 --name xss_server gizmonic.cs.umd.edu:8080/xss
 
-You can access the server in your browser at
+3. You can access the server in your browser at
 
     http://localhost:8082/
 
@@ -289,15 +300,19 @@ CSRF Attack
 Your goal in these tasks is to find ways to exploit a Cross-Site Request Forgery
 vulnerability.
 
-To retrieve the docker image, run
+(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
+
+Steps for running docker image:
+
+1. To retrieve the docker image, run
 
     docker pull gizmonic.cs.umd.edu:8080/csrf
 
-Start the server by running
+2. Start the server by running
 
     docker run -d -p 8083:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server gizmonic.cs.umd.edu:8080/csrf
 
-You can access the server in your browser at
+3. You can access the server in your browser at
 
     http://localhost:8083/
 
