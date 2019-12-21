@@ -1,16 +1,15 @@
 This assignment will explore three different web-based attacks: SQL Injection
 (SQLi), Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF).
 
-The tasks will all use docker images, hosted on gizmonic. These images have
-fully-configured servers that are vulnerable to the various attacks. Any machine
-with docker installed should suffice to complete these -- you don't have to use
-the course VM if you do not wish to. Make sure there is no service on your
-machine listening on ports 8081, 8082, or 8083. It is unlikely that there is.
+The tasks will all use docker images that have fully-configured
+servers that are vulnerable to the various attacks.  Make sure there
+is no service on your machine listening on ports 8081, 8082, or
+8083. It is unlikely that there is. All docker images are available on
+ELMS, and should be installed with `docker image load` in the same way
+as for the baseline.
 
-For the Java code you will be writing, be aware that the VM is still the
-reference platform, and is running openjdk version "1.8.0_151".
-
-Note: You are recommended to use VM image, where all the docker images already exist for this project.
+For the Java code you will be writing, please ensure that it is
+compliant with Java 1.8.
 
 
 SQL Injection Attacks
@@ -19,20 +18,13 @@ SQL Injection Attacks
 Your goal in these tasks is to find ways to exploit the SQL-Injection
 vulnerabilities and demonstrate the damage that can be achieved by the attacks.
 
-(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
-
 Steps for running docker image:
 
-1. To retrieve the docker image, run
+1. Start the server by running
 
-    docker pull gizmonic.cs.umd.edu:8080/sqli
+    docker run -d -p 8081:80 --name sql_server sqli
 
-
-2. Start the server by running
-
-    docker run -d -p 8081:80 --name sql_server gizmonic.cs.umd.edu:8080/sqli
-
-3. You can access the server in your browser at
+2. You can access the server in your browser at
 
     http://localhost:8081/
 
@@ -150,19 +142,13 @@ XSS Attack
 Your goal in these tasks is to find ways to exploit the Cross-Site Scripting
 vulnerabilities and demonstrate the damage that can be achieved by the attacks.
 
-(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
-
 Steps for running docker image:
 
-1. To retrieve the docker image, run
+1. Start the server by running
 
-    docker pull gizmonic.cs.umd.edu:8080/xss
+    docker run -d -p 8082:80 --name xss_server xss
 
-2. Start the server by running
-
-    docker run -d -p 8082:80 --name xss_server gizmonic.cs.umd.edu:8080/xss
-
-3. You can access the server in your browser at
+2. You can access the server in your browser at
 
     http://localhost:8082/
 
@@ -300,19 +286,13 @@ CSRF Attack
 Your goal in these tasks is to find ways to exploit a Cross-Site Request Forgery
 vulnerability.
 
-(IF YOU ARE USING VM IMAGE f19marsh FOR THIS PROJECT, THE DOCKER IMAGE IS ALREADY LOADED IN THE VM IMAGE, YOU CAN SKIP STEP 1)
-
 Steps for running docker image:
 
-1. To retrieve the docker image, run
+1. Start the server by running
 
-    docker pull gizmonic.cs.umd.edu:8080/csrf
+    docker run -d -p 8083:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server csrf
 
-2. Start the server by running
-
-    docker run -d -p 8083:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server gizmonic.cs.umd.edu:8080/csrf
-
-3. You can access the server in your browser at
+2. You can access the server in your browser at
 
     http://localhost:8083/
 
