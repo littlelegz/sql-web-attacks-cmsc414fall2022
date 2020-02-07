@@ -290,7 +290,7 @@ Steps for running docker image:
 
 1. Start the server by running
 
-    docker run -d -p 8083:80 -v $(pwd):/var/www/CSRF/Attacker --name csrf_server csrf
+    docker run -d -p 8083:80 -v "$(pwd):/var/www/CSRF/Attacker" --name csrf_server csrf
 
 2. You can access the server in your browser at
 
