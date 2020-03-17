@@ -130,6 +130,15 @@ Task 2: SQL Injection on UPDATE Statements
                 the steps you used to create a working SQL injection attack that
                 updates Bob's password to a new value.
 
+  For example:
+
+    "newpasswd"
+    alice
+    "foo"="bar"
+    "baz"="blah"
+
+    Other explanatory stuff.
+
 For the SQL Injection attacks, your repository should include:
 
   task1.txt 
@@ -269,11 +278,19 @@ Task 4: Session Hijacking using the Stolen Cookies
   code for the above scenario to execute properly.
  
   Input:  Your java program should read from an input file called
-  HTTPSimpleForge.txt. The first line of the input file contains the __elgg_ts
-  token (absolute value), the second line contains the __elgg_token (absolute
-  value) and the third line would contain the Cookie HTTP header value:
+  HTTPSimpleForge.txt. This filename should be hard-coded into your
+  program; it *will not* be passed on the command line. The first
+  line of the input file contains the __elgg_ts token (absolute
+  value), the second line contains the __elgg_token (absolute value)
+  and the third line would contain the Cookie HTTP header value:
 
     Elgg=<<cookie value>>
+
+  As an example:
+
+    1402467511
+    80923e114f5d6c5606b7efaa389213b3
+    Elgg=7pgvml3vh04m9k99qj5r7ceho4
 
   You can create a text file locally for testing out your code,
   however, you do not need to submit this file as part of your submission. We
