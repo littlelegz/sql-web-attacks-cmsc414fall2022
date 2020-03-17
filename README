@@ -9,7 +9,9 @@ ELMS, and should be installed with `docker image load` in the same way
 as for the baseline.
 
 For the Java code you will be writing, please ensure that it is
-compliant with Java 1.8.
+compliant with Java 1.8. Make sure that your editor does not insert
+"smart" quotes. Single quotes should be ASCII character 0x27, and
+double quotes should be ASCII character 0x22.
 
 
 SQL Injection Attacks
