@@ -187,20 +187,6 @@ following credentials:
     description field), then any user who views your profile will see the alert
     window.
   
-    In this case, the JavaScript code is short enough to be typed into the short
-    description field. If you want to run a long JavaScript, but you are limited
-    by the number of characters you can type in the form, you can store the
-    JavaScript program in a standalone file, save it with the .js extension, and
-    then refer to it using the src attribute in the <script> tag. See the
-    following example: 
- 
-      <script type = "text/javascript"   
-        src = http://www.example.com/myscripts.js>  
-      </script> 
- 
-    In the above example, the page will fetch the JavaScript program from
-    http://www.example.com, which can be any web server. 
-
     Our next objective is to embed a JavaScript program in your Elgg profile,
     such that when another user views your profile, the user's cookies will be
     displayed in the alert window. This can be done by adding some additional
@@ -229,12 +215,19 @@ Task 3: Stealing Cookies from the Victim's machine
   compile, and please read the README file on important information regarding
   how to start the server on port 5555. The cookie that will be printed on the
   terminal will be URL encoded.
+
+  Note 2: Some popular software, like Android Studio, uses port 5555. If you're
+  having issues with not being able to start the echo server, try changing 5555
+  to 5556 (or some other number) everywhere you use it. Keep in mind that you'll
+  need to make sure task3.txt is using 5555 when you're done, since that's how
+  we're testing your submission.
  
   Submission: Please submit a file called task3.txt. The grading will be done as
   below: We will run the echo server on localhost on port 5555. We will edit the
   brief description field acting as the user Alice using the message contents as
   specified by your task3.txt. Then, when Boby opens this message, Boby's cookie
-  should be printed by the echo server.
+  should be printed by the echo server. If you had to use a different port, don't
+  forget to change it back to 5555 once it's working!
 
 Task 4: Session Hijacking using the Stolen Cookies   
 
