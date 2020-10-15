@@ -314,18 +314,18 @@ and credentials.
 Task 5: CSRF Attack using GET Request 
  
   In this task, we need two people in the Elgg social network: Alice and Boby.
-  Boby wants to become a friend to Alice, but Alice refuses to add Boby to her
-  Elgg friend list. Boby decides to use the CSRF attack to achieve his goal. He
-  sends Alice a URL (via an email or a posting in Elgg); Alice, curious about
-  it, and clicks on the URL. Pretend that you are Boby, describe how you can
-  construct the content of the web page, so as soon as Alice visits the web
-  page, Boby is added to the friend list of Alice (assuming Alice has an active
+  Alice wants to become a friend to Boby, but Boby refuses to add Alice to his
+  Elgg friend list. Alice decides to use the CSRF attack to achieve her goal. She
+  sends Boby a URL (via an email or a posting in Elgg); Boby, curious about
+  it, and clicks on the URL. Pretend that you are Alice, describe how you can
+  construct the content of the web page, so as soon as Boby visits the web
+  page, Alice is added to the friend list of Boby (assuming Boby has an active
   session with Elgg).
 
   To add a friend to the victim, we need to identify the Add Friend HTTP
   request, which is a GET request. In this task, you are not allowed to write
   JavaScript code to launch the CSRF attack. Your job is to make the attack
-  successful as soon as Alice visits the web page, without even making any click
+  successful as soon as Boby visits the web page, without even making any click
   on the page (hint: you can use the img tag, which automatically triggers an
   HTTP GET request).
 
@@ -342,9 +342,9 @@ Task 5: CSRF Attack using GET Request
   into the victim's active session with Elgg.
  
   Submission: You are required to submit a file named task5.html. When a victim
-  user named Alice is logged in, and visits the attacker website
-  localhost:<<port>>/task5.html in another tab, Boby should be added as a friend
-  to Alice's Friend List.  
+  user named Boby is logged in, and visits the attacker website
+  localhost:<<port>>/task5.html in another tab, Alice should be added as a friend
+  to Boby's Friend List.  
  
   To test this, you will need to place the task5.html file under the directory
   /var/www/CSRF/elgg/ in the docker container. You can do this by running
@@ -352,5 +352,5 @@ Task 5: CSRF Attack using GET Request
     docker cp task5.html csrf_server:/var/www/CSRF/elgg
 
   Tip: Your browser may not refresh on its own. You might need to press the
-  reload/refresh button to reload the page, to see if Boby is added as a friend
-  to Alice's account.
+  reload/refresh button to reload the page, to see if Alice is added as a friend
+  to Boby's account.
