@@ -221,6 +221,17 @@ Task 3: Stealing Cookies from the Victim's machine
   to 5556 (or some other number) everywhere you use it. Keep in mind that you'll
   need to make sure task3.txt is using 5555 when you're done, since that's how
   we're testing your submission.
+
+  Note 3: If you have trouble building the echo server, you can
+  also use ncat as an alternative. The nmap project's version is
+  available at https://nmap.org/ncat/, but note that (on Windows)
+  it will not be added to your system path. You either need to add
+  it to the path, or run it from the nmap installation directory.
+  The appropriate command to run is
+
+    ncat --recv-only -l localhost 5555
+
+  you might need to hit Ctrl-C to terminate ncat before the output appears.
  
   Submission: Please submit a file called task3.txt. The grading will be done as
   below: We will run the echo server on localhost on port 5555. We will edit the
@@ -233,7 +244,7 @@ Task 4: Session Hijacking using the Stolen Cookies
 
   After stealing the victim's cookies, the attacker can do whatever the victim
   can do to the Elgg web server, including adding and deleting friends on behalf
-  of the victim, deleting the victim's post, etc. Essentially, the attacker has
+  of the victim, deleting the victim's posts, etc. Essentially, the attacker has
   hijacked the victim's session. In this task, we will launch this session
   hijacking attack, and write a program to add a friend on behalf of the victim.
  
@@ -261,9 +272,13 @@ Task 4: Session Hijacking using the Stolen Cookies
   down the correct guid of the friend who needs to be added to the friend list.
   You need to use that guid in the program code for the attack to succeed.
 
-  Note2: You can compile a java program into bytecode by running javac
-  HTTPSimpleForge.java on the console. You can run the byte code by running java
-  HTTPSimpleForge.  
+  Note2: You can compile a java program into bytecode by running
+
+    javac HTTPSimpleForge.java
+
+  on the console. You can then run the bytecode by running
+
+    java HTTPSimpleForge  
  
   Submission: Please submit a file called HTTPSimpleForge.java.
 
@@ -317,15 +332,15 @@ Task 5: CSRF Attack using GET Request
   Alice wants to become a friend to Boby, but Boby refuses to add Alice to his
   Elgg friend list. Alice decides to use the CSRF attack to achieve her goal. She
   sends Boby a URL (via an email or a posting in Elgg); Boby, curious about
-  it, and clicks on the URL. Pretend that you are Alice, describe how you can
-  construct the content of the web page, so as soon as Boby visits the web
+  it, and clicks on the URL. Pretend that you are Alice, and think about how you can
+  construct the contents of the web page, so as soon as Boby visits the web
   page, Alice is added to the friend list of Boby (assuming Boby has an active
   session with Elgg).
 
   To add a friend to the victim, we need to identify the Add Friend HTTP
   request, which is a GET request. In this task, you are not allowed to write
   JavaScript code to launch the CSRF attack. Your job is to make the attack
-  successful as soon as Boby visits the web page, without even making any click
+  successful as soon as Boby visits the web page, without even clicking
   on the page (hint: you can use the img tag, which automatically triggers an
   HTTP GET request).
 
@@ -333,7 +348,7 @@ Task 5: CSRF Attack using GET Request
   the web browser automatically issues a HTTP GET request for the URL contained
   in the img tag. Because the web browser automatically attaches the session
   cookie to the request, the trusted site cannot distinguish the malicious
-  request from the genuine request and ends up processing the request
+  request from the genuine request and ends up processing the request,
   compromising the victim user's session integrity.
 
   Observe the request structure for adding a new friend and then use this to
