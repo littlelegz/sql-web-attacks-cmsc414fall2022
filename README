@@ -120,17 +120,30 @@ Task 2: SQL Injection on UPDATE Statements
     3-n: One line for each profile parameter you changed, like so:
            "param"="new value"
 
-         Please note that both the parameter name and new value should be
-         wrapped in double quotes, so that we can clearly see any spaces you
-         might have added. Also, the parameter name should be exactly as it
-         appears in the source code, *not* what you see on the webpage. You
-         will have to examine the HTML or network traffic for these.
+	 Please note that both the parameter name and new value
+	 should be wrapped in double quotes, so that we can clearly
+	 see any spaces you might have added. Also, the parameter
+	 name should be exactly as it appears in the source code,
+	 *not* what you see on the webpage. You will have to examine
+	 the HTML or network traffic for these. (Hint: If your
+	 parameters begin with capital letters, you have the wrong
+	 parameter names.) The new value should be *exactly* what
+	 you type into the corresponding field of the form, including
+	 the injection.  If you don't do this, the automated grading
+	 will mark this task as failing. *All* parameters that you
+	 need to set must be included here for the automated grading
+	 to succeed.
 
     n+1: A blank line 
 
-    n+2 to end: The remaining lines should contain a short write up explaining
-                the steps you used to create a working SQL injection attack that
-                updates Bob's password to a new value.
+    n+2 to end: The remaining lines should contain a short write
+		up explaining the steps you used to create a working
+		SQL injection attack that updates Bob's password
+		to a new value.  This is especially important if
+		you mis-format the parameter lines, since it's the
+		most likely way we'll be able to figure out what
+		you actually should have entered during manual
+		regrading, if needed.
 
   For example:
 
