@@ -11,7 +11,12 @@ as for the baseline.
 For the Java code you will be writing, please ensure that it is
 compliant with Java 1.8. Make sure that your editor does not insert
 "smart" quotes. Single quotes should be ASCII character 0x27, and
-double quotes should be ASCII character 0x22.
+double quotes should be ASCII character 0x22. For all tasks, pay close
+attention to the formatting specified. There's a difference between single
+and double quotes, and the automated grading will be very unhappy if you
+use single quotes where you should have used double quotes. Not following
+the formatting properly is *the major reason* for people not getting points
+on task 2.
 
 
 SQL Injection Attacks
