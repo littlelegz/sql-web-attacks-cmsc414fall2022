@@ -128,7 +128,7 @@ Task 2: SQL Injection on UPDATE Statements
 	 Please note that both the parameter name and new value
 	 should be wrapped in double quotes, so that we can clearly
 	 see any spaces you might have added. Also, the parameter
-	 name should be exactly as it appears in the source code,
+	 name should be exactly as it appears in the HTML source code,
 	 *not* what you see on the webpage. You will have to examine
 	 the HTML or network traffic for these. (Hint: If your
 	 parameters begin with capital letters, you have the wrong
