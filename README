@@ -150,7 +150,7 @@ Task 2: SQL Injection on UPDATE Statements
 		you actually should have entered during manual
 		regrading, if needed.
 
-  For example:
+  For example (indentation not required):
 
     "newpasswd"
     alice
