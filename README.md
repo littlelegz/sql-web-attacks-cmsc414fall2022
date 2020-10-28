@@ -1,3 +1,5 @@
+# SQL Injections and Web Attacks
+
 This assignment will explore three different web-based attacks: SQL Injection
 (SQLi), Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF).
 
@@ -12,14 +14,22 @@ include *everything* necessary to demonstrate your attacks in the files
 you submit.**
 
 For the Java code you will be writing, please ensure that it is
-compliant with Java 1.8. Make sure that your editor does not insert
-"smart" quotes. Single quotes should be ASCII character 0x27, and
-double quotes should be ASCII character 0x22. For all tasks, pay close
-attention to the formatting specified. There's a difference between single
-and double quotes, and the automated grading will be very unhappy if you
-use single quotes where you should have used double quotes. Not following
-the formatting properly is *the major reason* for people not getting points
-on task 2.
+compliant with **Java 1.8**. Make sure that your editor does not
+insert "smart" quotes. Single quotes should be ASCII character 0x27,
+and double quotes should be ASCII character 0x22. For all tasks,
+pay close attention to the formatting specified. There's a difference
+between single and double quotes, and the automated grading will
+be very unhappy if you use single quotes where you should have used
+double quotes. Not following the formatting properly is *the major
+reason* for people not getting points on task 2. In particular, the
+initial lines for the first 2 tasks represent the fields the
+auto-grader will enter into the relevant HTML forms, so please
+include **all** of the needed fields **exactly** as you would *enter*
+them manually. For tasks 3 and 5, the files you provide will be
+used verbatim and in their entirety, so please do not include
+additional information. For task 5, you may include HTML comments,
+but for task 3, if you feel the need to include additional information,
+please place it in a separate file.
 
 
 # SQL Injection Attacks
@@ -301,9 +311,10 @@ your attack to succeed.  Also, please note down the correct guid of
 the friend who needs to be added to the friend list.  You need to use
 that guid in the program code for the attack to succeed.
 
-**Note2:** You can compile a java program into bytecode by running
+**Note2:** You can compile a java program into bytecode for **Java
+1.8** by running
 
-    javac HTTPSimpleForge.java
+    javac --release=8 HTTPSimpleForge.java
 
 on the console. You can then run the bytecode by running
 
