@@ -1,0 +1,6 @@
+*** Task 1: Successfully logged in (10) ***
+*** Task 2: Successfully logged in as bob with password "pass" (10) ***
+*** Task 3: Could not extract Boby's cookie (-10) ***
+*** Task 4: Successfully added Boby as a friend (10) ***
+*** Task 5: Successfully added Alice as a friend via CSRF (10) ***
+=== Total score: 40
