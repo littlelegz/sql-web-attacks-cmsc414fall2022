@@ -1,0 +1,5 @@
+login="bob') -- "
+password=""
+The login input inputs bob, then uses the single quote and closing parenthesis 
+to escape the string and finish the where clause respectively, then the double
+dash is used to comment out the rest of the query statement.
